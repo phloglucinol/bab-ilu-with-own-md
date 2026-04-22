@@ -1,0 +1,219 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bab-ilu.dev/schema/lens.schema.json",
+  "title": "Bab-ilu Lens Configuration",
+  "description": "Schema for .agent/lenses/<lens-id>/lens.yaml. Defines how a v2.1 lens plugs into Bab-ilu's horizontal tooling (commands, graph analyzer, vault structure).",
+  "type": "object",
+  "required": [
+    "id",
+    "version",
+    "name",
+    "description",
+    "deliverable_types",
+    "entity_model",
+    "activation",
+    "analysis_contract"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*[a-z0-9]$",
+      "description": "Lens slug (kebab-case). Must match parent directory name."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z.-]+)?$",
+      "description": "Semver string."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable name."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "One-paragraph explanation of what this lens does."
+    },
+    "deliverable_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Top-level deliverable types this lens produces. Used by /genesis, /ingest, /lint."
+    },
+    "entity_model": {
+      "type": "object",
+      "required": ["tier_0", "tier_1_atom", "tier_1_cluster"],
+      "additionalProperties": false,
+      "properties": {
+        "tier_0": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The unique observed thing (e.g. aesthetic, incident, note)."
+        },
+        "tier_1_atom": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The atomic emergent unit (e.g. motif, force, anomaly)."
+        },
+        "tier_1_cluster": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The named bundle that emerges from atoms (e.g. panel, pattern, paradigm)."
+        }
+      }
+    },
+    "activation": {
+      "type": "object",
+      "required": ["mode"],
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["always", "triggers"]
+        },
+        "triggers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\|[a-z][a-z0-9-]*\\|\\s*>=\\s*\\d+$",
+            "description": "Trigger DSL: |<slug>| >= <int>"
+          },
+          "minItems": 1,
+          "description": "Required when mode is 'triggers'."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "mode": { "const": "triggers" } }
+          },
+          "then": {
+            "required": ["triggers"]
+          }
+        }
+      ]
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cluster_member_min": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 3,
+          "description": "A tier-1-cluster must reference at least this many tier-1-atoms."
+        },
+        "cluster_min_size": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 3,
+          "description": "Community detection ignores clusters smaller than this."
+        },
+        "density_multiplier": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "default": 3.0,
+          "description": "density_min = density_multiplier × baseline_density."
+        },
+        "orphan_min_degree": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 1,
+          "description": "A tier-0 node with degree below this is flagged orphan."
+        },
+        "domain_min": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 5,
+          "description": "Each allowed subdomain must have at least this many tier-0 entries."
+        }
+      }
+    },
+    "anchors": {
+      "type": "object",
+      "required": ["authority_fields"],
+      "additionalProperties": false,
+      "properties": {
+        "authority_fields": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "Frontmatter field names that count as valid institutional anchors."
+        },
+        "external_vocabularies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Optional canonical URL for this vocabulary."
+              }
+            }
+          }
+        }
+      }
+    },
+    "allowed_subdomains": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+      "uniqueItems": true,
+      "description": "Permitted values for the 'domain' frontmatter field on tier-0 entries. Empty or missing ⇒ open (skip underpopulated_domain gap check)."
+    },
+    "community_detection": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "enum": ["louvain", "leiden"],
+          "default": "louvain"
+        },
+        "resolution": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "default": 1.0
+        },
+        "random_state": {
+          "type": "integer",
+          "default": 42
+        }
+      }
+    },
+    "analysis_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "gap": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true,
+          "description": "Gap categories this lens exposes to /gap."
+        },
+        "taste": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "Taste analyses this lens produces. Must be non-empty if present."
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Free-form lens-specific extensions. Open schema."
+    }
+  }
+}

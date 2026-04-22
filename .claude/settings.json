@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/ingest-image.sh",
+            "description": "Bab-ilu: auto-save chat-attached images to raw/images/inbox/ so /taste can pick them up without user filesystem work"
+          }
+        ]
+      }
+    ]
+  }
+}

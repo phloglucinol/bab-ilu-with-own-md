@@ -1,0 +1,17 @@
+{
+  "service_name": "GitLab.com",
+  "occurred": "2017-01-31",
+  "duration_minutes": 360,
+  "domain": "storage",
+  "narrative": "On 31 January 2017 a GitLab engineer accidentally ran rm against the primary PostgreSQL data directory while attempting to resync a secondary, deleting approximately 300 GB of production data before the command was halted two minutes later.",
+  "root_cause": "None of the five planned recovery mechanisms (pg_dump, LVM snapshot, Azure disk snapshot, streaming replication, S3 upload) were in a state that met the recovery point objective, so restoration required a six-hour-old LVM snapshot from a secondary.",
+  "impact_bullets": [
+    "Approximately 6 hours of production downtime",
+    "Around 5,000 projects and 5,000 comments lost",
+    "700 new-user signups during the window unrecoverable"
+  ],
+  "lesson_domain_bullets": [
+    "Backup mechanisms must be exercised as often as the RPO demands",
+    "Destructive commands need blast-radius guards at the shell layer"
+  ]
+}

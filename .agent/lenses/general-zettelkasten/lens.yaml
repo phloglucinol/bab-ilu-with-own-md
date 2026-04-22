@@ -1,0 +1,79 @@
+# general-zettelkasten lens — v2.1 Sprint 2
+# Location: .agent/lenses/general-zettelkasten/lens.yaml
+
+id: general-zettelkasten
+version: "1.0.0"
+name: "Zettelkasten (Luhmann + Ahrens + Bloom)"
+description: >-
+  A cross-domain note-taking lens for personal thought archives. Every
+  observation enters as an atomic note; concepts are extracted as
+  tier-1 atoms and linked promiscuously; concept-clusters emerge from
+  density of mutual wikilinks. Bloom's revised taxonomy (Remember →
+  Understand → Apply → Analyze → Evaluate → Create) tags what level of
+  cognitive processing a note/concept represents; /gap surfaces gaps
+  at each Bloom level separately. No institutional authority anchors —
+  notes stand on their own internal logic.
+
+deliverable_types:
+  - progressive-summary
+  - zettel-cluster-map
+
+entity_model:
+  tier_0: note              # the atomic Zettel — a single author-written observation
+  tier_1_atom: concept      # the concept distilled/linked across notes
+  tier_1_cluster: concept-cluster  # emergent theme binding ≥3 concepts
+
+activation:
+  mode: triggers
+  # AND-combined per lens_loader._evaluate_triggers. A file activates
+  # this lens when BOTH conditions hold: it self-tags as #note AND
+  # references ≥2 concept slugs. This narrows to actual Zettels (not
+  # every .md in the vault).
+  triggers:
+    - "|note| >= 1"
+    - "|concept| >= 2"
+
+thresholds:
+  cluster_member_min: 3       # concept-cluster must bundle ≥3 concepts
+  cluster_min_size: 3         # Louvain community <3 → disconnected flag
+  density_multiplier: 2.5     # looser than aesthetic (notes are shorter, density naturally lower)
+  orphan_min_degree: 2        # a note with <2 wikilinks is suspect (Zettelkasten principle)
+  domain_min: 3               # each declared discipline must have ≥3 notes
+
+# Zettelkasten deliberately DOES NOT ship authority_fields. Notes stand
+# on their own logic; appealing to institutional authorities (wikidata,
+# OCLC, DOI) defeats the purpose of the practice. The whole anchors
+# block is therefore omitted, which makes /lint --lens=general-zettelkasten
+# silently skip the lens-anchor check — by design, per docs/lens-spec.md §2.8.
+
+allowed_subdomains: []    # open — no underpopulated_domain gap warnings
+
+community_detection:
+  algorithm: louvain      # simpler runtime profile; note graphs often exceed Leiden sweet spot
+  resolution: 1.0
+  random_state: 42
+
+analysis_contract:
+  gap:
+    - orphan_note                    # note with <orphan_min_degree wikilinks
+    - one_way_link                   # note X links to Y but Y doesn't acknowledge X
+    - bloom_level_imbalance          # one Bloom level has <5% of notes (usually "Create" underrepresented)
+    - disconnected_concept_cluster
+    - stale_concept                  # concept not referenced by a new note in >6 months
+  taste:
+    - bloom_level_distribution
+    - note_frequency_by_month
+    - concept_reuse_top20
+    - concept_cluster_emergence_heatmap
+
+extensions:
+  zettelkasten:
+    bloom_taxonomy:
+      - remember        # recall facts
+      - understand      # explain ideas
+      - apply           # use information in new situations
+      - analyze         # distinguish parts
+      - evaluate        # justify a stance
+      - create          # produce new work
+    progressive_summary_layers: 3
+    fleeting_note_ttl_days: 14      # unprocessed "fleeting notes" are garbage-collected after 2 weeks

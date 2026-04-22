@@ -1,0 +1,12 @@
+{
+  "note": "Null-model density-ratio snapshot for R2 regression tests. Values computed analytically from the Chung-Lu weighted projection on a canonical 2-cluster vault (see TestSnapshotRegression). Uses the diagonal-corrected formula E[intra(C)] = [(Σ k_i)² - Σ k_i²] / (4W); regenerate only when the null-model formula changes.",
+  "canonical_vault": "2-cluster-disjoint-tier0",
+  "clusters": {
+    "cluster_0_atoms": ["z-a0", "z-a1", "z-a2", "z-a3"],
+    "cluster_1_atoms": ["a-a0", "a-a1", "a-a2"]
+  },
+  "density_ratios": {
+    "cluster_0": 2.1387,
+    "cluster_1": 4.0837
+  }
+}

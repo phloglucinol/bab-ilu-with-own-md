@@ -1,0 +1,11 @@
+{
+  "alwaysUpdateLinks": true,
+  "newLinkFormat": "shortest",
+  "useMarkdownLinks": false,
+  "attachmentFolderPath": "raw/images",
+  "userIgnoreFilters": [
+    "\\.agent/",
+    "^archive/",
+    "\\.tar\\.gz$"
+  ]
+}

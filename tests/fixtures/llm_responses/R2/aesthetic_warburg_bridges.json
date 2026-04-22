@@ -1,0 +1,9 @@
+{
+  "lens_id": "aesthetic-warburg",
+  "note": "Fixture for R2 bridge-candidate LLM gate. Keys are '<atom_a>|<atom_b>' in lexicographic order. Values are Claude's self-reported semantic similarity in [0, 1]. Captured 2026-04-19 on synthetic motifs for CI replay. Regenerate via a fresh capture pass when the prompt template changes.",
+  "pairs": {
+    "crouching-figure|nymph-in-motion": 0.82,
+    "crouching-figure|storm-at-sea": 0.18,
+    "nymph-in-motion|storm-at-sea": 0.24
+  }
+}

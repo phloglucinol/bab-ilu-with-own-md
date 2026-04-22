@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Details of the Cloudflare outage on July 2, 2019</title>
+  <meta property="article:published_time" content="2019-07-12T15:00:00Z">
+  <script>var tracking = {};</script>
+  <style>.nav { color: red; }</style>
+</head>
+<body>
+  <nav>Home | Blog | Contact</nav>
+  <header>Cloudflare blog — sign up for the newsletter</header>
+  <main>
+    <article>
+      <h1>Details of the Cloudflare outage on July 2, 2019</h1>
+      <p class="byline">Published July 12, 2019</p>
+      <p>As of 2024-03-01 this post has been viewed 500,000 times.</p>
+      <p>
+        On Tuesday, July 2, 2019 Cloudflare experienced a major global outage
+        affecting all our customers for 27 minutes. A newly deployed WAF rule
+        contained a regular expression with catastrophic backtracking behavior.
+        The rule was evaluated on every CPU, worldwide, and drove CPU utilization
+        to 100% across our L7 stack.
+      </p>
+      <p>
+        Our WAF rules had no per-operation CPU time budget, and the deployment
+        pipeline performed syntactic validation only — there was no performance
+        regression test, so a pathological regex could slip into production and
+        reach 100% of traffic in minutes.
+      </p>
+      <p>
+        The fault was triggered by a global WAF rule push. Because the push is
+        a single deployment event reaching every data center simultaneously, the
+        blast radius was global. We have since split WAF rule deployments into
+        a canary phase followed by a staged rollout, and CPU-time budgets are
+        enforced on every regex evaluation.
+      </p>
+      <p>
+        During those 27 minutes HTTP 502 responses spiked globally, and request
+        volume dropped to near zero. We believe the incident affected routing of
+        Cloudflare CDN traffic through roughly 90% of our edge network.
+      </p>
+      <p>
+        RFC 9110 defines the 502 Bad Gateway status code; our routing layer
+        returned 502 because the origin connections could not complete within
+        the configured timeout. This outage is not associated with any CVE.
+      </p>
+    </article>
+  </main>
+  <footer>&copy; 2019 Cloudflare</footer>
+  <aside>Related posts</aside>
+</body>
+</html>

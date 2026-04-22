@@ -1,0 +1,32 @@
+# Bab-ilu runtime dependencies.
+# Verified 2026-04-22: every entry below has at least one live user in
+# tools/, tests/, or mcp-servers/. Removing an entry should be preceded
+# by a repo-wide grep to confirm no import remains.
+
+# Dev / test framework.
+pytest>=7.4
+pytest-cov>=4.1
+
+# Core vault IO: YAML frontmatter (tools/lens_loader, tests/conftest, tests/test_lint, ...).
+pyyaml>=6.0
+
+# Lens schema validation (tools/lens_loader.py validates lens.yaml against .agent/lenses/schema.json).
+jsonschema>=4.0
+
+# HTML parsing for engineering-alexander /ingest URL mode (tools/incident_extractor.py).
+beautifulsoup4>=4.12
+
+# Vault graph analysis + community detection — used by tools/graph_analyzer.py,
+# imported transitively by tools/gap_runner.py and tools/ingest_runner.py resolution.
+# Missing either of these breaks `/ingest`, `/gap`, and pytest collection.
+networkx>=3.3
+python-louvain>=0.16
+
+# Local LLM fanout for MCP tools and prompt reverse-scoring
+# (tools/gen_client.py, tools/prompt_tester.py, mcp-servers/llm-review/server.py).
+httpx>=0.27,<1
+
+# Optional: PDF text extraction for engineering-alexander /ingest PDF mode
+# (tools/incident_extractor.py lazy-imports this only when the input is a real
+# PDF; HTML ingest and all test fixtures work without pypdf).
+pypdf>=6.0

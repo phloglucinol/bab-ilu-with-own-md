@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Summary of the Amazon S3 Service Disruption in the Northern Virginia Region on February 28, 2017</title>
+</head>
+<body>
+  <article>
+    <h1>Summary of the Amazon S3 Service Disruption in the Northern Virginia (US-EAST-1) Region</h1>
+    <p>February 28, 2017</p>
+    <p>
+      On the morning of February 28, 2017, the Amazon S3 team was debugging an
+      issue causing the S3 billing system to progress more slowly than expected.
+      At 9:37AM PST, an authorized S3 team member using an established playbook
+      executed a command which was intended to remove a small number of servers
+      for one of the S3 subsystems. Unfortunately, one of the inputs to the
+      command was entered incorrectly and a larger set of servers was removed
+      than intended.
+    </p>
+    <p>
+      The servers that were inadvertently removed supported two other S3
+      subsystems: the index subsystem and the placement subsystem. The removal
+      of a significant portion of the capacity caused each of these systems to
+      require a full restart.
+    </p>
+    <p>
+      While these subsystems were being restarted, S3 was unable to service
+      requests. Amazon S3 restoration took approximately 4 hours. We have
+      modified the tool so that it can only remove servers within a safety
+      threshold.
+    </p>
+    <p>
+      Root cause: an operational playbook permitted a single-parameter error
+      to cross two independent capacity thresholds simultaneously. The S3
+      service had grown significantly since its launch and had not performed a
+      full restart of these subsystems for many years, so the restart time was
+      longer than expected.
+    </p>
+  </article>
+</body>
+</html>

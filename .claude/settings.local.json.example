@@ -1,0 +1,27 @@
+{
+  "$comment": [
+    "This is a template. Copy to `settings.local.json` (which is gitignored)",
+    "and edit locally. DO NOT commit `settings.local.json` — it typically",
+    "contains machine-specific paths and permission settings you do not",
+    "want shared with other users of this repo."
+  ],
+  "permissions": {
+    "$comment": [
+      "Leaving `allow` and `deny` empty means Claude Code will prompt you",
+      "before running each Bash/tool call. This is the default and safest",
+      "mode for new users. Fill in specific allow rules as you learn which",
+      "Bab-ilu operations you want pre-approved.",
+      "",
+      "Example: to pre-approve reading your own vault under",
+      "~/my-vault/, add: \"Bash(ls ~/my-vault:*)\""
+    ],
+    "allow": [],
+    "deny": [],
+    "ask": []
+  },
+  "$defaultMode_comment": [
+    "IMPORTANT: do NOT set defaultMode to 'bypassPermissions' on a shared",
+    "or public repo — it disables Claude Code permission prompts entirely.",
+    "Use it only on your own machine for personal vaults you trust."
+  ]
+}

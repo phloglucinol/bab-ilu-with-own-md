@@ -1,0 +1,17 @@
+{
+  "service_name": "Amazon S3",
+  "occurred": "2017-02-28",
+  "duration_minutes": 240,
+  "domain": "storage",
+  "narrative": "On 28 February 2017 an Amazon S3 operator executed a playbook command with a mistyped parameter, removing far more capacity than intended and forcing a full restart of the index and placement subsystems in US-EAST-1 for approximately four hours.",
+  "root_cause": "The operational tool accepted an unbounded server-count parameter, so a single typo crossed two independent minimum-redundancy thresholds simultaneously. The two affected subsystems had not been cold-restarted for years and took hours to rebuild state.",
+  "impact_bullets": [
+    "Roughly 4 hours of S3 unavailability in US-EAST-1",
+    "Dependent AWS services and thousands of customer workloads affected",
+    "Index and placement subsystems required full state rebuild"
+  ],
+  "lesson_domain_bullets": [
+    "Operational tools need parameter bounds, not just authentication",
+    "Cold-start time must be a known quantity, not an unknown"
+  ]
+}

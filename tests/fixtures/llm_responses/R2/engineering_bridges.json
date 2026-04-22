@@ -1,0 +1,9 @@
+{
+  "lens_id": "engineering-alexander",
+  "note": "Fixture for R2 bridge-candidate LLM gate under engineering-alexander. Snapshot 2026-04-19.",
+  "pairs": {
+    "cache-stampede|thundering-herd": 0.91,
+    "cache-stampede|schema-drift": 0.22,
+    "schema-drift|thundering-herd": 0.15
+  }
+}

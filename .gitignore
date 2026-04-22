@@ -1,0 +1,64 @@
+# Secrets — NEVER commit
+.env
+.env.*
+!.env.example
+config/.env
+
+# Claude Code / user-local settings — NEVER commit (user machine paths + permission mode)
+.claude/settings.local.json
+settings.local.json
+**/settings.local.json
+
+# Defense-in-depth: common secret filename patterns
+*.pem
+*.key
+!*.key.example
+id_rsa
+id_ed25519
+credentials.json
+secrets.json
+*.p12
+*.pfx
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+.venv/
+.venv-v2/
+venv/
+.claude/.current-lang
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Build / generated
+dist/
+build/
+*.log
+
+# Bab-ilu internals
+wiki/_index/edges.jsonl.bak
+wiki/_log/*.bak
+
+# Local-only references directory (third-party repo clones kept for research
+# but not shipped with the OSS release — security audit L-4)
+references/
+# Internal work-in-progress area (kept out of the tracked tree)
+.work/
+
+# Test artifacts
+demo/*.mp4
+demo/*.gif.tmp
+tests/__fixtures__/*.generated
+.local-release-audit/

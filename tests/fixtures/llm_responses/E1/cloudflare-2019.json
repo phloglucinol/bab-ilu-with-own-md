@@ -1,0 +1,18 @@
+{
+  "service_name": "Cloudflare",
+  "occurred": "2019-07-02",
+  "duration_minutes": 27,
+  "domain": "network",
+  "narrative": "On 2 July 2019 a newly deployed WAF rule containing a catastrophically backtracking regex drove every Cloudflare edge CPU to 100% within minutes, producing a 27-minute global 502 event.",
+  "root_cause": "The WAF pipeline performed only syntactic validation of regex rules; there was no per-operation CPU budget and no performance regression gate, so a pathological rule could reach 100% of traffic on a single deploy.",
+  "impact_bullets": [
+    "Global edge CPU saturation across roughly 90% of data centers",
+    "HTTP 502 responses spiked worldwide for 27 minutes",
+    "All Cloudflare customers affected simultaneously"
+  ],
+  "lesson_domain_bullets": [
+    "Any code that runs per-request needs a worst-case time budget",
+    "Regex engine choice (PCRE vs RE2) is an architecture decision",
+    "Global single-deploy pipelines concentrate blast radius"
+  ]
+}

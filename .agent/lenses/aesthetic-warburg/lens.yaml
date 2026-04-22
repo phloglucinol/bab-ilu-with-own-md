@@ -1,0 +1,91 @@
+# aesthetic-warburg lens — v2.1 sample / v2.0 parity
+# Location (when merged): .agent/lenses/aesthetic-warburg/lens.yaml
+
+id: aesthetic-warburg
+version: "1.0.0"
+name: "Aesthetic Mnemosyne (Warburg lens)"
+description: >-
+  Track visual aesthetics across cinema, photography, UI, UX, graphic, game,
+  architecture, illustration, and painting. Emerges Pathosformel panels from
+  recurrent motifs, anchored in institutional authority files (AAT, Iconclass,
+  Wikidata, ULAN). Named after Aby Warburg's Mnemosyne Atlas — the v2.0
+  default lens that shipped in Sprint 1.
+
+deliverable_types:
+  - aesthetic
+  - panel
+
+entity_model:
+  tier_0: aesthetic        # a single aesthetic entry (work/incident/observation for this lens = single aesthetic)
+  tier_1_atom: motif       # the recurring visual unit referenced across aesthetics
+  tier_1_cluster: panel    # a named Pathosformel bundle (≥3 motifs)
+
+activation:
+  mode: triggers
+  # Triggers are AND-combined per lens_loader._evaluate_triggers: a file
+  # activates this lens only when BOTH conditions hold. This narrows
+  # activation to Pathosformel-shaped entries (files that self-identify
+  # as aesthetic AND reference multiple motif slugs).
+  triggers:
+    - "|aesthetic| >= 1"   # file tagged/wikilinked #aesthetic ≥ 1x
+    - "|motif| >= 2"       # AND references ≥ 2 motif slugs
+
+thresholds:
+  cluster_member_min: 3       # panel must wikilink to ≥3 motifs
+  cluster_min_size: 3         # Louvain community with <3 nodes → flag as disconnected
+  density_multiplier: 3.0     # density_min = 3.0 × baseline_density
+  orphan_min_degree: 1        # aesthetic with degree<1 is orphan
+  domain_min: 5               # each domain must have ≥5 aesthetics or warn
+
+anchors:
+  authority_fields:
+    - aat_id            # Getty AAT
+    - iconclass         # Iconclass notation
+    - wikidata          # Wikidata QID
+    - ulan_id           # Getty ULAN (artists)
+    - met_id            # Metropolitan Museum
+    - moma_id           # MoMA
+    - viaf_id           # VIAF
+    - loc_id            # Library of Congress
+    - tgn_id            # Getty TGN (places)
+    - imdb_id           # for cinema
+  external_vocabularies:
+    - id: aat
+      url: https://www.getty.edu/research/tools/vocabularies/aat/
+    - id: iconclass
+      url: https://iconclass.org/
+    - id: wikidata
+      url: https://www.wikidata.org/
+
+allowed_subdomains:
+  - cinema
+  - photo
+  - ui
+  - ux
+  - graphic
+  - game
+  - architecture
+  - illustration
+  - painting
+
+community_detection:
+  algorithm: louvain
+  resolution: 1.0
+  random_state: 42
+
+analysis_contract:
+  gap:
+    - underpopulated_domain
+    - understaffed_panel
+    - orphan_aesthetic
+    - missing_authority_anchor
+    - disconnected_clusters
+  taste:
+    - aesthetic_density_by_domain
+    - motif_frequency_top20
+    - panel_emergence_heatmap
+
+extensions:
+  warburg:
+    mnemosyne_panel_target_count: 63
+    atlas_publication_year: 1929

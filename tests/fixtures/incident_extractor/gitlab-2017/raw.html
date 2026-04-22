@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Postmortem of the database outage of January 31 · GitLab</title>
+</head>
+<body>
+  <nav>About | Handbook | Blog</nav>
+  <article>
+    <h1>Postmortem of the database outage of January 31</h1>
+    <p class="date">2017-02-10</p>
+    <p>Last updated 2024-01-01 — share this post!</p>
+    <p>
+      On January 31, 2017 GitLab.com experienced a prolonged database outage
+      that lasted approximately 6 hours. An engineer intended to remove the
+      replication lag on a secondary PostgreSQL database by deleting its data
+      directory and re-replicating, but accidentally ran the rm on the primary.
+    </p>
+    <p>
+      The team realized the mistake within two minutes and halted the command,
+      but approximately 300 GB of the primary's data had already been deleted.
+      The remaining replication and backup mechanisms proved to be non-functional
+      in exactly the configuration needed for fast recovery.
+    </p>
+    <p>
+      Root cause: no backup mechanism met the intended recovery point objective.
+      Five of five planned recovery paths (pg_dump, LVM snapshot, Azure disk
+      snapshot, replication, S3 upload) failed for independent reasons.
+    </p>
+    <p>
+      Impact: roughly 6 hours of downtime; approximately 5,000 projects and
+      5,000 comments lost; 700 new users signed up during the window could not
+      be restored. We now run consistency checks on every backup mechanism at
+      least once per week.
+    </p>
+  </article>
+  <footer>GitLab B.V.</footer>
+</body>
+</html>

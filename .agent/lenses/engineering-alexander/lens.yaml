@@ -1,0 +1,91 @@
+# engineering-alexander lens — v2.1 Sprint 2
+# Location: .agent/lenses/engineering-alexander/lens.yaml
+
+id: engineering-alexander
+version: "1.0.0"
+name: "Engineering Patterns (Alexander lens)"
+description: >-
+  Track reliability, resilience, and design patterns across production
+  incidents (post-mortems, RFC failures, SRE narratives). Emerges
+  Pattern-Languages — Alexander-style Context/Problem/Forces/Solution
+  bundles — from recurring patterns observed across distinct incidents.
+  Named after Christopher Alexander's "A Pattern Language" (1977), whose
+  Context → Problem → Forces → Solution structure is the canonical
+  generative form for this lens.
+
+deliverable_types:
+  - pattern-card
+  - pattern-language-brief
+
+entity_model:
+  tier_0: incident          # a distinct production event (one post-mortem or RFC failure)
+  tier_1_atom: pattern      # the recurring design remedy extracted from an incident
+  tier_1_cluster: pattern-language  # the named bundle of related patterns (≥3 patterns)
+
+activation:
+  mode: triggers
+  # AND-combined per lens_loader._evaluate_triggers. A file activates
+  # this lens only when BOTH conditions hold: tagged/wikilinked as
+  # #incident AND references ≥2 pattern slugs (matching Alexander's
+  # rule that a single pattern is never meaningful in isolation).
+  triggers:
+    - "|incident| >= 1"
+    - "|pattern| >= 2"
+
+thresholds:
+  cluster_member_min: 3       # pattern-language must bundle ≥3 patterns
+  cluster_min_size: 3         # Louvain community <3 nodes → disconnected flag
+  density_multiplier: 3.0     # density_min = 3.0 × baseline
+  orphan_min_degree: 1        # an incident with no pattern refs = orphan
+  domain_min: 3               # runtime/storage/network/build each ≥3 incidents
+
+anchors:
+  authority_fields:
+    - rfc_id             # IETF RFC number
+    - cve_id             # CVE identifier
+    - cwe_id             # CWE weakness category
+    - postmortem_url     # canonical post-mortem URL (AWS/Cloudflare/Google)
+    - service_name       # canonical service name when no URL anchor exists
+    - bug_tracker_url    # upstream bug tracker permalink
+  external_vocabularies:
+    - id: rfc
+      url: https://www.rfc-editor.org/
+    - id: cve
+      url: https://cve.mitre.org/
+    - id: cwe
+      url: https://cwe.mitre.org/
+    - id: sre-book
+      url: https://sre.google/books/
+
+allowed_subdomains:
+  - runtime           # JVM/Go runtime, kernel, OS
+  - storage           # databases, blob stores, cache tiers
+  - network           # CDN, DNS, routing, peering
+  - build             # CI/CD, artifact pipelines
+  - auth              # authn/authz, session, IAM
+  - observability     # metrics, traces, logs, alerting
+  - deployment        # rollout, blue/green, canary
+
+community_detection:
+  algorithm: leiden     # incident-pattern graphs benefit from resolution tuning
+  resolution: 1.0
+  random_state: 42
+
+analysis_contract:
+  gap:
+    - unexemplified_pattern         # pattern card cited by <3 incidents
+    - underpopulated_domain         # subdomain below domain_min
+    - orphan_incident               # incident missing pattern wikilinks
+    - missing_authority_anchor      # tier-0 without any authority_field
+    - disconnected_pattern_language # cluster fragmenting into components
+  taste:
+    - incident_density_by_domain
+    - pattern_reuse_top20
+    - pattern_language_emergence_heatmap
+    - time_to_remediation_distribution
+
+extensions:
+  alexander:
+    pattern_card_schema: "context → problem → forces → solution → resulting-context"
+    required_examples_per_pattern: 2   # Alexander's "at least two independent instances" rule
+    quality_ranking_scale: "0..2 stars (Alexander notation: no-star = candidate, one-star = useful, two-star = invariant)"
