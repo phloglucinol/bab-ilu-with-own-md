@@ -1,6 +1,15 @@
 ---
 name: evolve-lens
-description: LENS EVOLUTION — behavioral matcher that proposes an academic theory (Warburg-grade rigor) whose structure matches the user's unselfconscious working pattern. If accepted, operationalizes the theory as a new candidate lens installed at `<vault>/.agent/lenses/<id>/`. Reads observer state built silently from prior /ingest, /ask, synthesis-accept events. Never listens to user directives — behavior only. PRD §0.5.4 Track L MVP. Runs entirely in-session: Claude (this agent) is the matcher + verifier; no external API calls.
+description: >-
+  LENS EVOLUTION - behavioral matcher that proposes an academic theory
+  (Warburg-grade rigor) whose structure matches the user's
+  unselfconscious working pattern. If accepted, operationalizes the
+  theory as a new candidate lens installed at
+  `<vault>/.agent/lenses/<id>/`. Reads observer state built silently
+  from prior /ingest, /ask, synthesis-accept events. Never listens to
+  user directives - behavior only. PRD 0.5.4 Track L MVP. Runs entirely
+  in-session: Claude (this agent) is the matcher + verifier; no external
+  API calls.
 allowed-tools: [Read, Write, Glob, Grep, Bash]
 ---
 
