@@ -85,7 +85,7 @@ if [[ -d "$REPO_ROOT/.cursor" ]]; then DETECTED+=("cursor"); link_skills "$REPO_
 if [[ -d "$HOME/.gemini"   ]]; then DETECTED+=("gemini");  link_skills "$HOME/.gemini/skills/bab-ilu"  "gemini";  fi
 
 if [[ ${#DETECTED[@]} -eq 0 ]]; then
-  warn "no AI agents detected. Install Claude Code to use Bab-ilu."
+  warn "no AI agents detected. Install Claude Code or Codex to use Bab-ilu."
 fi
 
 # ---- 5. Report ----
@@ -96,14 +96,15 @@ log ""
 if [[ ${#DETECTED[@]} -gt 0 ]]; then
   log "Detected agents: ${DETECTED[*]}"
 else
-  log "No agents detected yet. Install Claude Code and re-run setup.sh."
+  log "No agents detected yet. Install Claude Code or Codex and re-run setup.sh."
 fi
 log ""
-log "Next step — in Claude Code, run:"
-log "  /genesis <vault-name>   (interactive; scaffolds raw/ wiki/ .agent/"
-log "                           per the lens you pick: aesthetic / engineering / zettelkasten)"
+log "Next step — open Claude Code or Codex in this repo, then inside your agent session run:"
+log "  /genesis               (interactive; scaffolds raw/ wiki/ .agent/"
+log "                          per the lens you pick: aesthetic / engineering / zettelkasten)"
 log ""
 log "Then: /ingest <material>  and /ask \"<your question>\""
+log "Do not run /genesis in bash; enter it in the agent conversation."
 log ""
 log "Commands: /genesis /ingest /ask /gap /lint /distill /prompt /taste /evolve /evolve-lens"
 log "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

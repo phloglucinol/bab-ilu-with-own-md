@@ -127,39 +127,47 @@ Bab-ilu lets the LLM **write every insight into a persistent, cross-referenced l
 
 **Requirements**:
 - Python 3.10+
-- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) (every command runs inside Claude Code; no `ANTHROPIC_API_KEY` — reasoning happens in the session)
+- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) or Codex (Bab-ilu entrypoints run inside the agent conversation, not as shell commands: Claude Code uses `/genesis`-style slash commands, while Codex uses `$genesis`-style skill invocation; no `ANTHROPIC_API_KEY` — reasoning happens in the session)
 - Any markdown editor (Obsidian / VSCode / whatever) to read the vault
+- Codex users: see [docs/codex-quickstart.md](docs/codex-quickstart.md)
 
 ```bash
 git clone https://github.com/<your-username>/bab-ilu.git
 cd bab-ilu
 pip install -r requirements.txt
-
-# Initialize a new vault
-claude /genesis
-
-# Then: feed material, ask questions, make decisions
-claude /ingest raw/your-stuff/
-claude /ask "any natural-language question"
 ```
 
-`/genesis` asks 5 questions (vault language / pick a lens / work subdomain / demo seed? / ingest now?). Say yes to the demo seed and you get 3-5 example entries — enough to see how Bab-ilu works in 5 minutes.
+Then open your agent runtime in this repo and enter the matching syntax:
+
+```text
+Claude Code:
+/genesis
+/ingest raw/your-stuff/
+/ask "any natural-language question"
+
+Codex:
+$genesis
+$ingest raw/your-stuff/
+$ask "any natural-language question"
+```
+
+`/genesis` (or `$genesis` in Codex) asks 5 questions (vault language / pick a lens / work subdomain / demo seed? / ingest now?). Say yes to the demo seed and you get 3-5 example entries — enough to see how Bab-ilu works in 5 minutes.
 
 ---
 
-## Commands
+## Workflow entrypoints
 
-| Command | What it does |
+| Claude Code | Codex | What it does |
 |---|---|
-| `/genesis` | Create a new vault |
-| `/ingest <path>` | Feed material: originals go to `raw/`; LLM analysis goes to `wiki/` |
-| `/ask <question>` | Query the vault in natural language; the answer can archive to `wiki/syntheses/` |
-| `/gap` | Have Claude find missing links between concept clusters you haven't spotted |
-| `/lint` | Vault health audit: contradictions, stale claims, missing material, orphan nodes |
-| `/distill <source>` | Re-structure foreign-language material into your schema (not translation) |
-| `/prompt <entity>` | Turn a concept or note into a deployable Midjourney / Sora prompt |
-| `/taste <image>` | Under aesthetic lens, runs full Panofsky three-layer creative analysis; under other lenses, falls back to that lens's diagnostic report mode |
-| `/evolve-lens` | **Advanced**: let Claude propose a new cognitive framework drawn from your usage pattern |
+| `/genesis` | `$genesis` | Create a new vault |
+| `/ingest <path>` | `$ingest <path>` | Feed material: originals go to `raw/`; LLM analysis goes to `wiki/` |
+| `/ask <question>` | `$ask <question>` | Query the vault in natural language; the answer can archive to `wiki/syntheses/` |
+| `/gap` | `$gap` | Have Claude find missing links between concept clusters you haven't spotted |
+| `/lint` | `$lint` | Vault health audit: contradictions, stale claims, missing material, orphan nodes |
+| `/distill <source>` | `$distill <source>` | Re-structure foreign-language material into your schema (not translation) |
+| `/prompt <entity>` | `$prompt <entity>` | Turn a concept or note into a deployable Midjourney / Sora prompt |
+| `/taste <image>` | `$taste <image>` | Under aesthetic lens, runs full Panofsky three-layer creative analysis; under other lenses, falls back to that lens's diagnostic report mode |
+| `/evolve-lens` | `$evolve-lens` | **Advanced**: let Claude propose a new cognitive framework drawn from your usage pattern |
 
 ---
 

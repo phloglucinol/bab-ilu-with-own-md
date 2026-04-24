@@ -105,35 +105,45 @@ Bab-ilu 让 LLM 把每一次发现都写进一张持久的、会交叉引用的�
 
 ## 快速上手
 
-需要 Python 3.10 或更新，以及 [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code)。所有命令在 Claude Code 里跑；不需要 `ANTHROPIC_API_KEY`，推理在当前会话内完成。读 vault 用你喜欢的任何 markdown 编辑器——Obsidian、VSCode、Zed 都可以。
+需要 Python 3.10 或更新，以及 [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) 或 Codex。Bab-ilu 的工作流入口要在 agent 对话里输入，不是在 bash 里直接执行：Claude Code 用 `/genesis` 这类 slash 命令，Codex 用 `$genesis` 这类 skill 调用；不需要 `ANTHROPIC_API_KEY`，推理在当前会话内完成。读 vault 用你喜欢的任何 markdown 编辑器——Obsidian、VSCode、Zed 都可以。Codex 用户可直接看 [docs/codex-quickstart.md](docs/codex-quickstart.md)。
 
 ```bash
 git clone https://github.com/<your-username>/bab-ilu.git
 cd bab-ilu
 pip install -r requirements.txt
-
-claude /genesis           # 初始化一个 vault（五个交互问题）
-claude /ingest raw/stuff/ # 丢素材
-claude /ask "..."         # 自然语言问什么都行
 ```
 
-`/genesis` 会问你五件事：vault 语言，选哪盏 lens，工作方向，要不要装 demo 种子，现在就 ingest 素材吗。装 demo 种子会给你三到五条示例条目，五分钟就能看出 Bab-ilu 是怎么工作的。
+然后进入 agent 会话，在对话里输入对应运行时的入口：
+
+```text
+Claude Code:
+/genesis
+/ingest raw/stuff/
+/ask "..."
+
+Codex:
+$genesis
+$ingest raw/stuff/
+$ask "..."
+```
+
+`/genesis`（在 Codex 中对应 `$genesis`）会问你五件事：vault 语言，选哪盏 lens，工作方向，要不要装 demo 种子，现在就 ingest 素材吗。装 demo 种子会给你三到五条示例条目，五分钟就能看出 Bab-ilu 是怎么工作的。
 
 ---
 
-## 命令清单
+## 工作流入口
 
-| 命令 | 做什么 |
+| Claude Code | Codex | 做什么 |
 |---|---|
-| `/genesis` | 建一个新 vault |
-| `/ingest <path>` | 把素材写进 vault——原件入 `raw/`，LLM 分析入 `wiki/` |
-| `/ask <问题>` | 用自然语言查 vault，答案可归档为 syntheses 里的新页 |
-| `/gap` | 让 Claude 找你还没注意到的概念簇之间的缺失连接 |
-| `/lint` | vault 健康审计：矛盾、过时、缺失素材、孤立节点 |
-| `/distill <source>` | 把非母语素材在你自己的 schema 里重新搭一遍（不是翻译） |
-| `/prompt <entity>` | 把一个概念或笔记变成可用的 Midjourney / Sora 提示词 |
-| `/taste <image>` | aesthetic lens 下跑 Panofsky 三层创意分析；其他 lens 下回归为该 lens 的分析报告模式 |
-| `/evolve-lens` | 进阶：让 Claude 从你的使用模式里提议一盏新的 lens |
+| `/genesis` | `$genesis` | 建一个新 vault |
+| `/ingest <path>` | `$ingest <path>` | 把素材写进 vault——原件入 `raw/`，LLM 分析入 `wiki/` |
+| `/ask <问题>` | `$ask <问题>` | 用自然语言查 vault，答案可归档为 syntheses 里的新页 |
+| `/gap` | `$gap` | 让 Claude 找你还没注意到的概念簇之间的缺失连接 |
+| `/lint` | `$lint` | vault 健康审计：矛盾、过时、缺失素材、孤立节点 |
+| `/distill <source>` | `$distill <source>` | 把非母语素材在你自己的 schema 里重新搭一遍（不是翻译） |
+| `/prompt <entity>` | `$prompt <entity>` | 把一个概念或笔记变成可用的 Midjourney / Sora 提示词 |
+| `/taste <image>` | `$taste <image>` | aesthetic lens 下跑 Panofsky 三层创意分析；其他 lens 下回归为该 lens 的分析报告模式 |
+| `/evolve-lens` | `$evolve-lens` | 进阶：让 Claude 从你的使用模式里提议一盏新的 lens |
 
 ---
 
