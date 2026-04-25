@@ -57,7 +57,7 @@ Full product spec: `PRD-v2.1-zh.md` (Chinese, authoritative) / `PRD.md` (English
 Schema contract: `schema.md`.
 Algorithm spec: `.agent/spec/gap-algorithm.md`.
 
-**Runtime note**: Bab-ilu workflow entrypoints live in the agent conversation, not in bash. In Claude Code, use slash-style commands such as `/genesis`, `/ingest`, `/ask`, `/gap`, and `/lint`. In Codex, invoke the same workflows as skills with `$genesis`, `$ingest`, `$ask`, `$gap`, and `$lint`. `.claude/skills/` remains the single Bab-ilu skill source; `setup.sh` only installs dependencies and links that source into detected runtimes such as `~/.codex/skills/bab-ilu`.
+**Runtime note**: Bab-ilu workflow entrypoints live in the agent conversation, not in bash. They are workflow entrypoints, not shell commands. In Claude Code, use slash-style commands such as `/genesis`, `/ingest`, `/ask`, `/gap`, and `/lint`. In Codex, invoke the same workflows as skills with `$genesis`, `$ingest`, `$ask`, `$gap`, and `$lint`. `.claude/skills/` remains the single Bab-ilu skill source; `setup.sh` only installs dependencies and links that source into detected runtimes such as `~/.codex/skills/bab-ilu`.
 
 **Note**: Hard rules below were written in v2.0 when Bab-ilu was aesthetic-only. Some are **universal** (three-layer architecture, atomic writes, dual anchor principle) and apply to all lenses. Others (Panofsky three-layer contract, Pathosformel prohibitions) are **aesthetic-lens-specific** and only bind when the active lens is `aesthetic-warburg`. A full v2.1 rewrite of this file is deferred; for now, apply aesthetic-specific rules only under the aesthetic lens.
 
@@ -89,12 +89,13 @@ Generated prompts for AI models remain English regardless.
 6. **Dual anchor:** AAT/Iconclass/ULAN in both prose footnote AND `.agent/graph/anchors.md`. `/lint` checks consistency.
 7. **Panofsky three-layer contract:** `/taste` and `/prompt` output visibly separates pre-iconographic / iconographic / iconological.
 
-## Commands (8 total)
+## Commands (9 total)
 
 | Claude Code | Codex | Purpose |
 |-------------|-------|---------|
 | `/genesis [--seeded]` | `$genesis [--seeded]` | Initialize vault; 4 interactive questions; optional seed-kit import |
 | `/ingest <path\|query>` | `$ingest <path\|query>` | Ingest raw material → create work/motif pages + update ontology |
+| `/wx2md-worker <mp.weixin.qq.com URL>` | `$wx2md-worker <mp.weixin.qq.com URL>` | Capture a WeChat Official Account article into `raw/articles/` via worker |
 | `/taste <image\|file>` | `$taste <image\|file>` | Single-input analysis; propose motifs (no commit without user approval) |
 | `/gap [--tier=1\|2\|all]` | `$gap [--tier=1\|2\|all]` | Run gap analysis → generate questions + todos |
 | `/ask <question>` | `$ask <question>` | Query vault; synthesize answer with citations |

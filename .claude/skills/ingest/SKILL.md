@@ -108,7 +108,7 @@ are a Sprint 3+ target).
 `/ingest` accepts:
 
 1. **No argument** — consumes `raw/images/inbox/` (populated by the `ingest-image` hook when users paste images in chat). With `--panel`, the entire current inbox is processed as one set. This is the canonical user path.
-2. A URL: `/ingest https://...` — fetch, save to the lens-appropriate raw subdir (e.g. `raw/articles/`, `raw/videos/`), route by content type
+2. A URL: `/ingest https://...` — current v2.2 behavior routes directly into the lens-specific ingest path. For WeChat Official Account links that must be preserved as raw evidence first, run `/wx2md-worker` (Codex: `$wx2md-worker`) and then `/ingest raw/articles/<slug>.md`
 3. A path already in `raw/`: `/ingest raw/images/wkw/`
 4. A directory of mixed materials: `/ingest raw/images/demo/`
 5. Plain text piped in (rare; for ad-hoc notes): `/ingest - < notes.txt`
@@ -126,11 +126,13 @@ are a Sprint 3+ target).
 
 | Input | Action |
 |-------|--------|
-| URL | fetch (respecting robots.txt), save to `raw/{articles,papers,videos}/` based on content-type, record source metadata |
+| URL | current `/ingest <url>` behavior routes into the lens-specific pipeline rather than providing full raw materialization; for `mp.weixin.qq.com` evidence capture, use `/wx2md-worker` to write `raw/articles/*.md` first |
 | Path to directory | enumerate files, bucket by type (image / video / text / pdf) |
 | Path to single file | single-item pipeline |
 
-For URLs, save the raw fetched content untouched. `raw/` is immutable — any transformation is downstream.
+For WeChat Official Account URLs that should be preserved into `raw/articles/`,
+use `/wx2md-worker` first. Bab-ilu currently ships no generic remote-article
+capture skill for non-WeChat article URLs.
 
 ### Step 2 — Dispatch by type
 

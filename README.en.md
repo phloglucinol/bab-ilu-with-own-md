@@ -158,8 +158,9 @@ $ask "any natural-language question"
 ## Workflow entrypoints
 
 | Claude Code | Codex | What it does |
-|---|---|
+|---|---|---|
 | `/genesis` | `$genesis` | Create a new vault |
+| `/wx2md-worker <mp.weixin.qq.com URL>` | `$wx2md-worker <mp.weixin.qq.com URL>` | Capture a WeChat Official Account article into `raw/articles/` via worker before deciding whether to ingest it |
 | `/ingest <path>` | `$ingest <path>` | Feed material: originals go to `raw/`; LLM analysis goes to `wiki/` |
 | `/ask <question>` | `$ask <question>` | Query the vault in natural language; the answer can archive to `wiki/syntheses/` |
 | `/gap` | `$gap` | Have Claude find missing links between concept clusters you haven't spotted |
