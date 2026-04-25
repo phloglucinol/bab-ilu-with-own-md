@@ -1,0 +1,41 @@
+{
+  "source_report": "raw/tmp_url/wx2md-worker-report.json",
+  "retried_count": 5,
+  "results": [
+    {
+      "url": "https://mp.weixin.qq.com/s?t=pages/image_detail&scene=24&__biz=MzAwMjY0ODk3Nw==&mid=2247486056&idx=1&sn=e90c90217114dfb09ace109c7391f350&from_masonry=1&sharer_shareinfo_first=cd36921167f83797dca060e6c7a0b95c&sharer_shareinfo=cd36921167f83797dca060e6c7a0b95c#wechat_redirect",
+      "status": "render_failed",
+      "slug": "mp-weixin-qq-com-mzawmjy0odk3nw-2247486056-1",
+      "output_path": null,
+      "reason": "worker markdown missing title"
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzkzMjc1Njk0MQ==&mid=2247485683&idx=1&sn=564443b02f64f5777a2bca967e0b10e5&chksm=c3becdf33043ca42e5efb0a587d5dac43f2a753baac53cde7e59d7bb1c8b63f236954e43c6df&mpshare=1&scene=24&srcid=10276xpMlvnCpuWviw4ia8VL&sharer_shareinfo=6cc30acaf4891bec5480f8b83f6d7e8c&sharer_shareinfo_first=6cc30acaf4891bec5480f8b83f6d7e8c#rd",
+      "status": "captured",
+      "slug": "mp-weixin-qq-com-mzkzmjc1njk0mq-2247485683-1-fep",
+      "output_path": "raw/articles/mp-weixin-qq-com-mzkzmjc1njk0mq-2247485683-1-fep.md",
+      "reason": null
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzkxOTQxMjA1OQ==&mid=2247484929&idx=1&sn=7772f44aa163b4e64ad516030cb51c2a&chksm=c0ecb7c8891f41305f6413a64e2a7fc433fa475e7e7b9b43d0c1a0ab459ac568731d3d6eff8d&mpshare=1&scene=24&srcid=1125ZbgAlMR6V69NDA1qvnI5&sharer_shareinfo=dab113019736c36beb48aef71f7ada74&sharer_shareinfo_first=dab113019736c36beb48aef71f7ada74#rd",
+      "status": "captured",
+      "slug": "mp-weixin-qq-com-mzkxotqxmja1oq-2247484929-1",
+      "output_path": "raw/articles/mp-weixin-qq-com-mzkxotqxmja1oq-2247484929-1.md",
+      "reason": null
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s/8y4bCqZdp27G3otX4Schpw",
+      "status": "captured",
+      "slug": "mp-weixin-qq-com-jcim-rinpy-python",
+      "output_path": "raw/articles/mp-weixin-qq-com-jcim-rinpy-python.md",
+      "reason": null
+    },
+    {
+      "url": "https://mp.weixin.qq.com/s?__biz=MzIzNzg4OTEzNg==&mid=2247484927&idx=2&sn=319c6ebeecd9784029afd4bea7218959&chksm=e932ccf0dfbf7c4098ea9e20af6b4a503b5d597e03af4ade1acc88ec53c5b4c8b84ad75a4257&mpshare=1&scene=24&srcid=10250ZB7lAoc6dHzQapVLjtT&sharer_shareinfo=4017e63fb2ca0d61c03e8f0c1dee4182&sharer_shareinfo_first=4017e63fb2ca0d61c03e8f0c1dee4182#rd",
+      "status": "captured",
+      "slug": "mp-weixin-qq-com-mziznzg4otezng-2247484927-2-prl",
+      "output_path": "raw/articles/mp-weixin-qq-com-mziznzg4otezng-2247484927-2-prl.md",
+      "reason": null
+    }
+  ]
+}
