@@ -139,6 +139,7 @@ $ask "..."
 | `/wx2md-worker <mp.weixin.qq.com URL>` | `$wx2md-worker <mp.weixin.qq.com URL>` | 把微信公众号文章通过 worker 固化到 `raw/articles/`，再决定是否 ingest |
 | `/ingest <path>` | `$ingest <path>` | 把素材写进 vault——原件入 `raw/`，LLM 分析入 `wiki/` |
 | `/ask <问题>` | `$ask <问题>` | 用自然语言查 vault，答案可归档为 syntheses 里的新页 |
+| `/materialize-concepts [--dry-run]` | `$materialize-concepts [--dry-run]` | 在 general-zettelkasten 下，把被多条 note 复用的 concept 链接落地成 `wiki/concept/` 页面 |
 | `/gap` | `$gap` | 让 Claude 找你还没注意到的概念簇之间的缺失连接 |
 | `/lint` | `$lint` | vault 健康审计：矛盾、过时、缺失素材、孤立节点 |
 | `/distill <source>` | `$distill <source>` | 把非母语素材在你自己的 schema 里重新搭一遍（不是翻译） |

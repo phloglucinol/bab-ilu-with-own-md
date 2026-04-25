@@ -163,6 +163,7 @@ $ask "any natural-language question"
 | `/wx2md-worker <mp.weixin.qq.com URL>` | `$wx2md-worker <mp.weixin.qq.com URL>` | Capture a WeChat Official Account article into `raw/articles/` via worker before deciding whether to ingest it |
 | `/ingest <path>` | `$ingest <path>` | Feed material: originals go to `raw/`; LLM analysis goes to `wiki/` |
 | `/ask <question>` | `$ask <question>` | Query the vault in natural language; the answer can archive to `wiki/syntheses/` |
+| `/materialize-concepts [--dry-run]` | `$materialize-concepts [--dry-run]` | Under general-zettelkasten, turn reused note concept references into real `wiki/concept/` pages |
 | `/gap` | `$gap` | Have Claude find missing links between concept clusters you haven't spotted |
 | `/lint` | `$lint` | Vault health audit: contradictions, stale claims, missing material, orphan nodes |
 | `/distill <source>` | `$distill <source>` | Re-structure foreign-language material into your schema (not translation) |

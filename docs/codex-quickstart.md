@@ -31,7 +31,7 @@ Start with:
 $genesis
 ```
 
-Then continue with `$ingest`, `$ask`, `$gap`, or `$lint`.
+Then continue with `$ingest`, `$ask`, `$materialize-concepts`, `$gap`, or `$lint`.
 
 ## Common mistakes
 

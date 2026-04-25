@@ -89,7 +89,7 @@ Generated prompts for AI models remain English regardless.
 6. **Dual anchor:** AAT/Iconclass/ULAN in both prose footnote AND `.agent/graph/anchors.md`. `/lint` checks consistency.
 7. **Panofsky three-layer contract:** `/taste` and `/prompt` output visibly separates pre-iconographic / iconographic / iconological.
 
-## Commands (9 total)
+## Commands (10 total)
 
 | Claude Code | Codex | Purpose |
 |-------------|-------|---------|
@@ -97,6 +97,7 @@ Generated prompts for AI models remain English regardless.
 | `/ingest <path\|query>` | `$ingest <path\|query>` | Ingest raw material → create work/motif pages + update ontology |
 | `/wx2md-worker <mp.weixin.qq.com URL>` | `$wx2md-worker <mp.weixin.qq.com URL>` | Capture a WeChat Official Account article into `raw/articles/` via worker |
 | `/taste <image\|file>` | `$taste <image\|file>` | Single-input analysis; propose motifs (no commit without user approval) |
+| `/materialize-concepts [--dry-run]` | `$materialize-concepts [--dry-run]` | Under general-zettelkasten, create real `wiki/concept/` pages from reused note concept references |
 | `/gap [--tier=1\|2\|all]` | `$gap [--tier=1\|2\|all]` | Run gap analysis → generate questions + todos |
 | `/ask <question>` | `$ask <question>` | Query vault; synthesize answer with citations |
 | `/prompt <target>` | `$prompt <target>` | Generate AI-model prompts (optional downstream) |
